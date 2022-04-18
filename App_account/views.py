@@ -28,3 +28,6 @@ def userlogin(request):
             return redirect('store')
     return render(request,'app_account/login.html',context={'form':form})
 
+def userlogout(request):
+    logout(request)
+    return redirect('login')
