@@ -48,13 +48,13 @@ class User(AbstractBaseUser):
     last_login = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True) # here is_active should be to for normal user to access home page after login
     is_superadmin = models.BooleanField(default=False)
 
     objects = MyAccountsManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','first_name','last_name']
+    REQUIRED_FIELDS = ['username','first_name','last_name'] #required field should be include to usercreation form if not requeired then not need to include
 
     def __str__(self):
         return self.email
