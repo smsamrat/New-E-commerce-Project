@@ -8,4 +8,7 @@ from django.urls import reverse
 # Create your views here.
 
 def index(request):
-    return HttpResponseRedirect(reverse('store'))
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('store'))
+    else:
+        return HttpResponseRedirect(reverse('signup'))
