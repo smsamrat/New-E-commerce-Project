@@ -45,16 +45,16 @@ def edit_profile(request):
         form = UpdateProfile(instance=request.user)
     return render(request,'app_account/edit_profile.html',context={'form':form}) 
 
-# def custom_profile(request):
-#     return render(request,'app_account/custom_change_pro.html',context={}) 
+def custom_profile(request):
+    return render(request,'app_account/custom_change_pro.html',context={}) 
     
-# def change_profile(request):
-#     profile = Profile.objects.get(user =request.user)
-#     form = ProfileForm(instance=profile)
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST,instance=profile)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('custom_profile')
-#         form = ProfileForm(instance=profile)
-#     return render(request,'app_account/change_profile.html',context={'form':form}) 
+def change_profile(request):
+    profile = Profile.objects.get(user =request.user)
+    form = ProfileForm(instance=profile)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST,instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('custom_profile')
+        form = ProfileForm(instance=profile)
+    return render(request,'app_account/change_profile.html',context={'form':form}) 
