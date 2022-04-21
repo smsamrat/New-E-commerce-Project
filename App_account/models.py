@@ -98,3 +98,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+class ProfilePic(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE , related_name='profile_pic')
+    images = models.ImageField(upload_to="profile_pics")
+

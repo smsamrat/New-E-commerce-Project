@@ -1,7 +1,7 @@
 from dataclasses import fields
 from django import forms
 from django.forms import ModelForm
-from App_account.models import User,Profile
+from App_account.models import User,Profile,ProfilePic
 from django.contrib.auth.forms import UserCreationForm
 
 class CreateUserForm(UserCreationForm):
@@ -19,3 +19,8 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         exclude = ('user',)
+
+class ProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = ProfilePic
+        fields = ('images',)

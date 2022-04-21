@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',
     'App_account',
     'App_store',
+
 ]
 
 AUTH_USER_MODEL = 'App_account.User'

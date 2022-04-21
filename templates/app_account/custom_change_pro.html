@@ -5,13 +5,24 @@
 
 <div class="container">
     <div class="row">
-        Username: {{user.profile.username}}<br><br>
-        Full Name: {{user.profile.full_name}}<br><br>
-        Address: {{user.profile.address_1}}<br><br>
-        City: {{user.profile.city}}<br><br>
-        Country: {{user.profile.country}}<br><br>
-        Zipcode: {{user.profile.zipcode}}<br><br>
-        Phone: {{user.profile.phone}}<br><br>
+        <div class="col-md-6">
+            {% if user.profile_pic %}
+            <img src="/media/{{user.profile_pic.images}}" class="rounded-circle" width="100px" alt=""><br>
+            <a href="{% url 'edit_profile_picture' %}">Edit Profile Picture</a><br>
+        {% else %}
+            <img src="/media/profile_pics/avatar.jpg" class="rounded-circle" width="100px" alt=""><br>
+            <a href="{% url 'add_profile_picture' %}">Add Profile Picture</a><br>
+        {% endif %}
+        </div>
+        <div class="col-md-6">
+            Username: {{user.profile.username}}<br><br>
+            Full Name: {{user.profile.full_name}}<br><br>
+            Address: {{user.profile.address_1}}<br><br>
+            City: {{user.profile.city}}<br><br>
+            Country: {{user.profile.country}}<br><br>
+            Zipcode: {{user.profile.zipcode}}<br><br>
+            Phone: {{user.profile.phone}}<br><br>
+        </div>
         
     </div>
     <a href="{% url 'change_profile' %}"><button type="submit" class="btn btn-primary btn-sm">Edit Profile</button></a>

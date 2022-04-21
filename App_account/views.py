@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login,logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import CreateUserForm,UpdateProfile,ProfileForm
+from .forms import CreateUserForm,UpdateProfile,ProfileForm,ProfilePicForm
 from .models import Profile
 
 # Create your views here.
@@ -58,3 +58,23 @@ def change_profile(request):
             return redirect('custom_profile')
         form = ProfileForm(instance=profile)
     return render(request,'app_account/change_profile.html',context={'form':form}) 
+
+def add_profile_pic(request):
+    form = ProfilePicForm()
+    if request.method=='POST':
+        form = ProfilePicForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_object = form.save(commit=False)
+            user_object.user = request.user
+            form.save()
+            return HttpResponseRedirect(reverse('custom_profile'))
+    return render(request,'app_account/add_profile_picture.html',context={'form':form}) 
+
+def edit_profile_picture(request):
+    form = ProfilePicForm(instance=request.user.profile_pic)
+    if request.method=='POST':
+        form = ProfilePicForm(request.POST, request.FILES,instance=request.user.profile_pic)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('custom_profile'))
+    return render(request,'app_account/add_profile_picture.html',context={'form':form}) 
