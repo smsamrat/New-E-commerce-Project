@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login,logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import CreateUserForm
+from .forms import CreateUserForm,UpdateProfile,ProfileForm
+from .models import Profile
 
 # Create your views here.
 
@@ -34,3 +35,26 @@ def userlogout(request):
 
 def user_profile(request):
     return render(request,'app_account/profile.html',context={}) 
+def edit_profile(request):
+    form = UpdateProfile(instance=request.user)
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')
+        form = UpdateProfile(instance=request.user)
+    return render(request,'app_account/edit_profile.html',context={'form':form}) 
+
+# def custom_profile(request):
+#     return render(request,'app_account/custom_change_pro.html',context={}) 
+    
+# def change_profile(request):
+#     profile = Profile.objects.get(user =request.user)
+#     form = ProfileForm(instance=profile)
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST,instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('custom_profile')
+#         form = ProfileForm(instance=profile)
+#     return render(request,'app_account/change_profile.html',context={'form':form}) 
