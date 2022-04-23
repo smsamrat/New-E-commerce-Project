@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from .forms import CreateUserForm,UpdateProfile,ProfileForm,ProfilePicForm
 from .models import Profile
+from django.contrib import messages
 
 # Create your views here.
 
@@ -14,6 +15,8 @@ def signup(request):
         form = CreateUserForm(data = request.POST)
         if form.is_valid():  
             form.save()
+            messages.success(request,"Account Created Successfully")
+            return redirect('login')
     return render(request,'app_account/signup.html',context={'form':form})
 
 def userlogin(request):
@@ -31,6 +34,7 @@ def userlogin(request):
 
 def userlogout(request):
     logout(request)
+    messages.warning(request,"You are logged Out")
     return redirect('login')
 
 def user_profile(request):
@@ -55,6 +59,7 @@ def change_profile(request):
         form = ProfileForm(request.POST,instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request,"Profile Update Successfully")
             return redirect('custom_profile')
         form = ProfileForm(instance=profile)
     return render(request,'app_account/change_profile.html',context={'form':form}) 
