@@ -9,7 +9,7 @@ class Category (models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"self.title"
+        return f"{self.title}"
     class Meta:
         verbose_name_plural = "Categories"
 
@@ -24,6 +24,6 @@ class Product (models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"self.name"
+        return f"{self.name}"
     class Meta:
         ordering =['-created']
