@@ -51,7 +51,7 @@
             </div> <!-- price-wrap .// -->
         </td>
         <td class="text-right"> 
-        <a href="" class="btn btn-danger"> Remove</a>
+        <a href="{% url 'item_remove' pk=cart.item.pk %}" class="btn btn-danger"> Remove</a>
         </td>
     </tr>
     {% endfor %}
