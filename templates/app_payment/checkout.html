@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 <section class="section-content padding-y bg">
     <div class="container">
@@ -36,27 +37,22 @@
             {% csrf_token %}    
             <div class="row">
                 <div class="form-group col-sm-6">
-                    <label>Address*</label>
-                    {{form.address}}
+                    {{form.address|as_crispy_field }}
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>zipcode*</label>
-                    {{form.zipcode}}
+                    {{form.zipcode|as_crispy_field}}
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>City*</label>
-                    {{form.city}}
+                    {{form.city|as_crispy_field}}
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>Country*</label>
-                    {{form.country}}
+                    {{form.country|as_crispy_field}}
                 </div>
                 <div class="form-group col-sm-6">
-                    <label>phone*</label>
-                    {{form.phone}}
+                    {{form.phone|as_crispy_field}}
                 </div>
                 <div class="form-group col-sm-6">
-                    <button type="submit" class="btn btn-primary btn-md">Save</button>
+                    <button type="submit" class="btn btn-primary btn-md float-right">Save</button>
                 </div>
             </div> <!-- row.// -->	
         </form>
