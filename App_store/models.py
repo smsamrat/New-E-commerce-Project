@@ -5,7 +5,8 @@ from django.db import models
 # Create your models here.
 
 class Category (models.Model):
-    title = models.CharField(max_length=250)
+    title = models.CharField(max_length=250,unique=True)
+    slug = models.SlugField(max_length=50, unique=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

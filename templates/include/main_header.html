@@ -15,7 +15,7 @@
 			</button>
 			<div class="dropdown-menu">
 				{% for category in links %}
-                    <a class="dropdown-item" href="">{{category.title}}</a>
+                    <a class="dropdown-item" href="{% url 'category' category.slug %}">{{category.title}}</a>
                     {% endfor %}
 				
 			</div>
