@@ -4,7 +4,7 @@ from django.urls import path
 from App_store import views
 
 urlpatterns = [
-    path('', views.Store.as_view(), name='store'),
-    path('details/<pk>/', views.ProductDetails.as_view(), name='details_page'),
+    path('', views.store, name='store'),
+    path('details/<str:cat_slug>/<str:prod_slug>/', views.product_details, name='product_details'),
     path('cetegory/<str:slug>/',views.product_fetch_by_category, name='category')
 ]

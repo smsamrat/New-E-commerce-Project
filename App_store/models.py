@@ -17,6 +17,7 @@ class Category (models.Model):
 class Product (models.Model):
     mainimage = models.ImageField(upload_to = "Products")
     name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=264, unique=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
     preview_text = models.TextField(max_length=250, verbose_name="preview_text")
     details_text = models.TextField(max_length=250,verbose_name="description")
