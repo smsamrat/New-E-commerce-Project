@@ -76,7 +76,7 @@
                     <img src="./images/misc/payments.png" height="26">
                 </p>
                 {% if save_address.is_fully_filled%}
-                <a href="./place-order.html" class="btn btn-primary btn-block"> Make Payment </a>
+                <a href="{% url 'payment' %}" class="btn btn-primary btn-block"> Make Payment </a>
                 {% else %}
                     <div class="alert alert-info">
                         <p>Please save the delivary address for completing payment</p>
