@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('App_account.urls')),
     path('store/', include('App_store.urls')),
-    path('store/', include('App_order.urls')),
-    path('store/', include('App_payment.urls')),
+    path('order/', include('App_order.urls')),
+    path('payment/', include('App_payment.urls')),
     path('', views.index,name ='index'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

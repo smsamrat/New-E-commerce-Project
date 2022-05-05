@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from App_order.models import Order,Cart
 from App_account.models import Profile
 from .models import BillignsAddress
 from .forms import BillignsAddressForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 #payment
 import requests
 from sslcommerz_python.payment import SSLCSession
@@ -35,13 +37,57 @@ def checkout(request):
 
 def payment(request):
     save_address = BillignsAddress.objects.get_or_create(user = request.user)
-    if not save_address[0].is_fully_filled():
+    save_address = save_address[0]
+    if not save_address.is_fully_filled():
         messages.warning(request,'Please save the delivary address')
         return redirect('checkout')
         
     if not request.user.profile.is_fully_filled():
         messages.info(request,'Please Fill up your Profile')
         return redirect('custom_profile')
-    return render(request,'app_payment/payment.html',context={})
+
+    store_id = 'abc626e225657a3c'
+    API_key = 'abc626e225657a3c@ssl'
+    mypayment = SSLCSession(sslc_is_sandbox=True, sslc_store_id=store_id, sslc_store_pass=API_key)
+
+    status_url = request.build_absolute_uri(reverse('complete'))
+    # print(status_url)
+    mypayment.set_urls(success_url=status_url, fail_url=status_url, cancel_url=status_url, ipn_url=status_url)
+
+
+    order_qs = Order.objects.filter(user= request.user, orderd = False)
+    order_items = order_qs[0].orderItems.all()
+    order_items_count = order_qs[0].orderItems.count()
+    order_total = order_qs[0].get_totals()
+
+    mypayment.set_product_integration(total_amount=Decimal(order_total), currency='BDT', product_category='Mixed', product_name=order_items, num_of_item=order_items_count, shipping_method='Courier', product_profile='None')
+
+    current_user = request.user
+
+    mypayment.set_customer_info(name=current_user.profile.full_name, email=current_user.email, address1=current_user.profile.address_1, address2=current_user.profile.address_1, city=current_user.profile.city, postcode=current_user.profile.zipcode, country=current_user.profile.country, phone=current_user.profile.phone)
+
+    mypayment.set_shipping_info(shipping_to=current_user.profile.full_name, address=save_address.address, city=save_address.city, postcode=save_address.zipcode, country=save_address.country)
+
+    response_data = mypayment.init_payment()
+    # print(response_data)
+
+    return redirect(response_data['GatewayPageURL'])
+
+@csrf_exempt
+def complete(request):
+    if request.method =='POST' or request.method =='post':
+        payment_data = request.POST
+        status = payment_data['status']
+        
+        if status == 'VALID':
+            tran_id = payment_data['tran_id']
+            val_id = payment_data['val_id']
+            messages.success(request,f"Payment Is Successfully! After 5 second Home Page will be redirected")
+        elif status == 'FAILED':
+            messages.warning(request,f"Payment Failed ! Please Try Again After! 5 second Home Page will be redirected")
+        elif status == 'CANCEL':
+            messages.warning(request,f"Payment Cancel ! After 5 second Home Page will be redirected")
+
+    return render(request,"app_payment/complete.html",context={})
 
 
