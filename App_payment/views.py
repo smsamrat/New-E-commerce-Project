@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from App_order.models import Order,Cart
@@ -82,7 +83,8 @@ def complete(request):
         if status == 'VALID':
             tran_id = payment_data['tran_id']
             val_id = payment_data['val_id']
-            messages.success(request,f"Payment Is Successfully! After 5 second Home Page will be redirected")
+            messages.success(request,f"Payment Is Successfully!")
+            return HttpResponseRedirect(reverse('purchase', kwargs={'tran_id':tran_id,'val_id':val_id}))
         elif status == 'FAILED':
             messages.warning(request,f"Payment Failed ! Please Try Again After! 5 second Home Page will be redirected")
         elif status == 'CANCEL':
@@ -90,4 +92,16 @@ def complete(request):
 
     return render(request,"app_payment/complete.html",context={})
 
-
+def purchase (request, tran_id, val_id):
+    order_qs = Order.objects.filter(user = request.user, orderd = False)
+    order = order_qs[0]
+    orderId = tran_id
+    order.orderd = True
+    order.orderId = orderId
+    order.paymentId = val_id
+    order.save()
+    cart_items = Cart.objects.filter(user = request.user, purchased = False)
+    for item in cart_items:
+        item.purchased = True
+        item.save()
+    return HttpResponseRedirect(reverse('store'))
