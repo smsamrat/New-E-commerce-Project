@@ -1,4 +1,5 @@
 projectenv/
+env/
 .DS_STORE
 
 # Virtualenv related
