@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 <!-- ============================ COMPONENT LOGIN   ================================= -->
 <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
@@ -8,10 +9,10 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-           {{form.username}}
+           {{form.username|as_crispy_field}}
         </div> <!-- form-group// -->
         <div class="form-group">
-            {{form.password}}
+            {{form.password|as_crispy_field}}
         </div> <!-- form-group// -->
         
         <div class="form-group">
