@@ -3,6 +3,7 @@ from urllib import request
 from django.shortcuts import redirect, render
 from django.views.generic import ListView,DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # Models
@@ -27,3 +28,14 @@ def product_details(request,cat_slug,prod_slug):
         if(Product.objects.filter(slug=prod_slug)):
             products = Product.objects.filter(slug=prod_slug).first()
     return render(request,'app_store/details_page.html',context={'single_product':products})
+
+def SearchProduct(request):
+    search = request.GET['search_item']
+    products = Product.objects.filter(name__icontains=search).order_by('-name')
+    if products !=None and products !='':
+        return render(request,'app_store/search.html',context={'object_list':products})
+    else:
+        messages.warning(request,'Product Not Found')
+        return redirect('store')
+        
+        
