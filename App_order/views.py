@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from requests import request
 from App_store.models import Product
 from .models import Cart,Order
 from django.contrib.auth.decorators import login_required
@@ -103,3 +104,7 @@ def item_decrease(request,pk):
     else:
         messages.warning(request,"Your item was not in order")
         return redirect('store')
+
+def add_cart_for_signup(request):
+    messages.warning(request,"For Buying Product! Please Login or Create an Account")
+    return redirect('login')
