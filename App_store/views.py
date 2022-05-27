@@ -5,6 +5,7 @@ from django.views.generic import ListView,DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Models
 from .models import Category, Product
@@ -12,8 +13,13 @@ from .models import Category, Product
 # Create your views here.
 
 def store(request):
-    products = Product.objects.filter()
-    return render(request,'app_store/store.html',context={'object_list':products})
+    products = Product.objects.all()
+    products = Product.objects.all()
+    paginator = Paginator(products, 4,orphans = 1)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'app_store/store.html', { 'object_list': page_obj,'page_number':int(page_number),'paginator':paginator })
+
 
 def product_fetch_by_category(request, slug):
     if(Category.objects.filter(slug=slug)):
