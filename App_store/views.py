@@ -14,8 +14,7 @@ from .models import Category, Product
 
 def store(request):
     products = Product.objects.all()
-    products = Product.objects.all()
-    paginator = Paginator(products, 4,orphans = 1)
+    paginator = Paginator(products, 8,orphans = 1)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'app_store/store.html', { 'object_list': page_obj,'page_number':int(page_number),'paginator':paginator })
