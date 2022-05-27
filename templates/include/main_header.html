@@ -21,7 +21,7 @@
 			</div>
 		</div>  <!-- category-wrap.// -->
 	</div> <!-- col.// -->
-	<a href="./store.html" class="btn btn-outline-primary">Store</a>
+	<a href="{% url 'store' %}" class="btn btn-outline-primary">All Item</a>
 	<div class="col-lg  col-md-6 col-sm-12 col">
 		<form action="{% url 'SearchProduct'%}" class="search">
 			<div class="input-group w-100">
@@ -39,12 +39,12 @@
 	<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
 				<div class="d-flex justify-content-end mb-3 mb-lg-0">
 					<div class="widget-header">
-						<small class="title text-muted">Welcome guest!</small>
+						<small class="title text-muted">Welcome to!</small>
 						<div>
 							{% if request.user.is_authenticated %}
 							<a href="{% url 'logout' %}"> Logout</a>|
-							<a href="{% url 'user_profile' %}"> User Profile</a>|
-							<a href="{% url 'custom_profile' %}"> Custom Profile</a>
+							<!-- <a href="{% url 'user_profile' %}"> User Profile</a>| -->
+							<a href="{% url 'custom_profile' %}"> User Profile</a>
 							{% else %}
 							<a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
 							<a href="{% url 'signup' %}"> Register</a>
